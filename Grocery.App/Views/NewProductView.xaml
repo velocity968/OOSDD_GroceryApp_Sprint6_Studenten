@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Grocery.App.ViewModels"
+             x:Class="Grocery.App.Views.NewProductView"
+             x:DataType="vm:NewProductViewModel"
+             Title="Nieuw Product Aanmaken">
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Text="Productnaam:" FontSize="18" FontAttributes="Bold" Margin="0,10,0,5"/>
+        <Entry Grid.Row="1" Text="{Binding Name}" Placeholder="bijv. Appelsap" BackgroundColor="AliceBlue" TextColor="Black" Margin="0,0,0,15"/>
+
+        <Label Grid.Row="2" Text="Voorraad:" FontSize="18" FontAttributes="Bold" Margin="0,0,0,5"/>
+        <Entry Grid.Row="3" Text="{Binding Stock}" Placeholder="bijv. 100" Keyboard="Numeric" BackgroundColor="AliceBlue" TextColor="Black" Margin="0,0,0,15"/>
+
+        <Label Grid.Row="4" Text="Houdbaarheidsdatum:" FontSize="18" FontAttributes="Bold" Margin="0,0,0,5"/>
+        <DatePicker Grid.Row="5" Date="{Binding ShelfLife, Converter={StaticResource DateOnlyToDateTimeConverter}}" Format="dd-MM-yyyy" BackgroundColor="AliceBlue" TextColor="Black" Margin="0,0,0,15"/>
+
+        <Label Grid.Row="6" Text="Prijs (€):" FontSize="18" FontAttributes="Bold" Margin="0,0,0,5"/>
+        <Entry Grid.Row="7" Text="{Binding Price}" Placeholder="bijv. 2.95" Keyboard="Numeric" BackgroundColor="AliceBlue" TextColor="Black" Margin="0,0,0,15"/>
+
+        <Label Grid.Row="8" Text="{Binding ErrorMessage}" TextColor="Yellow" FontSize="16" FontAttributes="Bold" IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" HorizontalTextAlignment="Center" Margin="0,10,0,10"/>
+
+        <Grid Grid.Row="10" ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,20,0,10">
+            <Button Grid.Column="0" Text="Annuleren" Command="{Binding CancelCommand}" BackgroundColor="#626262" TextColor="White" FontSize="18" HeightRequest="50"/>
+            <Button Grid.Column="1" Text="Opslaan" Command="{Binding SaveProductCommand}" BackgroundColor="ForestGreen" TextColor="White" FontSize="18" FontAttributes="Bold" HeightRequest="50"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>
