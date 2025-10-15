@@ -4,6 +4,8 @@ using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using Microsoft.Maui.Controls;
 
 namespace Grocery.App.ViewModels
 {
@@ -55,9 +57,7 @@ namespace Grocery.App.ViewModels
             try
             {
                 var newProduct = new Product(0, Name, Stock, ShelfLife, Price);
-
                 _productService.Add(newProduct);
-
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
@@ -70,6 +70,38 @@ namespace Grocery.App.ViewModels
         private async Task Cancel()
         {
             await Shell.Current.GoToAsync("..");
+        }
+    }
+
+    public class DateOnlyToDateTimeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is DateOnly dateOnly)
+                return dateOnly.ToDateTime(TimeOnly.MinValue);
+            return DateTime.Now;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is DateTime dateTime)
+                return DateOnly.FromDateTime(dateTime);
+            return DateOnly.FromDateTime(DateTime.Now);
+        }
+    }
+
+    public class StringNotEmptyConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string str)
+                return !string.IsNullOrWhiteSpace(str);
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }
